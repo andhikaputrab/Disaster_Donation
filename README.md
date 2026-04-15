@@ -1,74 +1,80 @@
-# Smart Contract Donasi Bantuan Korban Bencana Alam
+# Disaster Relief Donation Smart Contract
 
-Sistem smart contract untuk mengumpulkan dan mendistribusikan donasi kepada korban bencana alam secara transparan dan otomatis menggunakan blockchain Stellar Soroban.
+A transparent blockchain-based smart contract system for collecting and distributing donations to disaster victims using Stellar Soroban. Built with trust and transparency at its core.
 
-## Fitur Utama
+### ID Smartcontract
+CBK36NYDT6RTLWFVR7P5O33EUGSLS2D2VULER5HE7RAAFKWUNRQPGZDX
 
-### 1. **Campaign Management (Manajemen Kampanye)**
-- Membuat campaign donasi untuk setiap bencana
-- Menetapkan target donasi dan deadline
-- Auto-close campaign ketika target tercapai
-- Tracking progress campaign
+### Testnet Screenshot
+<img width="1911" height="730" alt="image" src="https://github.com/user-attachments/assets/9c666d10-6b86-454d-ada7-da41a0d4dd80" />
 
-### 2. **Donation Tracking (Pelacakan Donasi)**
-- Mencatat setiap donasi dengan detail donor, jumlah, dan waktu
-- Transparansi penuh - semua donasi tercatat di blockchain
-- Tidak bisa ada manipulasi data
+## Key Features
 
-### 3. **Donor Management (Manajemen Donor)**
-- Statistik donasi per donor (total donasi, jumlah donasi)
-- Riwayat donasi donor
-- Laporan donor
+### 1. **Campaign Management**
+- Create donation campaigns for each disaster event
+- Set target donation amounts and deadlines
+- Auto-close campaigns when targets are reached
+- Real-time campaign progress tracking
 
-### 4. **Statistics (Statistik)**
-- Total campaign yang berjalan
-- Total dana terkumpul
-- Total donasi yang masuk
-- Progress per campaign
+### 2. **Donation Tracking**
+- Record every donation with donor details, amount, and timestamp
+- Complete transparency - all donations recorded on blockchain
+- Tamper-proof records - immutable once recorded
 
-## Struktur Data
+### 3. **Donor Management**
+- Per-donor donation statistics (total donated, donation count)
+- Complete donor history
+- Donor reports and profiles
+
+### 4. **Statistics & Analytics**
+- Total active campaigns
+- Total funds collected
+- Total number of donations
+- Per-campaign progress metrics
+
+## Data Structures
 
 ### DonationCampaign
 ```rust
 pub struct DonationCampaign {
-    pub id: u64,                          // ID unik campaign
-    pub disaster_name: String,            // Nama bencana
-    pub description: String,              // Deskripsi campaign
-    pub target_amount: i128,              // Target donasi
-    pub collected_amount: i128,           // Dana terkumpul
-    pub deadline: u64,                    // Batas waktu
-    pub recipient_address: Address,       // Alamat penerima
+    pub id: u64,                          // Unique campaign identifier
+    pub disaster_name: String,            // Name of the disaster
+    pub description: String,              // Campaign description
+    pub target_amount: i128,              // Donation target in stroops
+    pub collected_amount: i128,           // Amount collected so far
+    pub deadline: u64,                    // Campaign deadline (timestamp)
+    pub recipient_address: Address,       // Address receiving funds
     pub status: Symbol,                   // active/closed/distributed
-    pub created_at: u64,                  // Waktu dibuat
+    pub created_at: u64,                  // Campaign creation timestamp
 }
 ```
 
 ### Donation
 ```rust
 pub struct Donation {
-    pub id: u64,                          // ID donasi
-    pub campaign_id: u64,                 // Campaign ID
-    pub donor: Address,                   // Alamat donor
-    pub amount: i128,                     // Jumlah donasi
-    pub timestamp: u64,                   // Waktu donasi
+    pub id: u64,                          // Unique donation identifier
+    pub campaign_id: u64,                 // Associated campaign ID
+    pub donor: Address,                   // Donor blockchain address
+    pub amount: i128,                     // Donation amount in stroops
+    pub timestamp: u64,                   // Donation timestamp
 }
 ```
 
 ### DonorStats
 ```rust
 pub struct DonorStats {
-    pub total_donated: i128,              // Total donasi
-    pub donation_count: u64,              // Jumlah donasi
+    pub total_donated: i128,              // Total amount donated
+    pub donation_count: u64,              // Total number of donations
 }
 ```
 
-## Fungsi-Fungsi Contract
+## Contract Functions
 
 ### Initialization
 ```rust
 initialize(admin: Address, token: Address) -> String
 ```
-Inisialisasi contract dengan admin dan token address
+Initialize the contract with admin and token addresses
 
 ### Campaign Functions
 ```rust
@@ -110,80 +116,80 @@ get_campaign_percentage(campaign_id: u64) -> u64
 get_total_stats() -> (u64, i128, u64)
 ```
 
-## Flow Penggunaan
+## Usage Flow
 
-### 1. Inisialisasi
+### 1. Initialization
 ```
-1. Deploy contract
-2. Call initialize() dengan admin dan token address
-```
-
-### 2. Membuat Campaign
-```
-1. Call create_campaign() dengan detail bencana
-2. Dapatkan campaign_id
-3. Campaign siap menerima donasi
+1. Deploy contract to Stellar testnet
+2. Call initialize() with admin and token address
 ```
 
-### 3. Melakukan Donasi
+### 2. Create Campaign
 ```
-1. Donor memanggil donate() dengan campaign_id dan amount
-2. Dana dicatat di blockchain
-3. DonorStats terupdate otomatis
-4. Jika target tercapai, campaign auto-close
+1. Call create_campaign() with disaster details
+2. Receive campaign_id
+3. Campaign is now ready to receive donations
+```
+
+### 3. Make Donation
+```
+1. Donor calls donate() with campaign_id and amount
+2. Funds are recorded on blockchain
+3. DonorStats automatically updated
+4. Campaign auto-closes when target is reached
 ```
 
 ### 4. Tracking & Reporting
 ```
-1. Get campaign progress dengan get_campaign_progress()
-2. Get donor stats dengan get_donor_stats()
-3. Get total statistics dengan get_total_stats()
+1. Get campaign progress with get_campaign_progress()
+2. Get donor stats with get_donor_stats()
+3. Get total statistics with get_total_stats()
 ```
 
-## Keamanan & Keuntungan
+## Security & Benefits
 
-✅ **Immutable Records** - Semua donasi tercatat dan tidak bisa diubah
-✅ **Transparent** - Siapa saja bisa melihat aliran dana
-✅ **Automated** - Tidak perlu intermediary yang bisa korup
-✅ **Fast Settlement** - Donasi langsung dicatat
-✅ **Trustless** - Smart contract yang enforce aturan
-✅ **Audit Trail** - Setiap transaksi tercatat lengkap
+✅ **Immutable Records** - All donations are recorded permanently and cannot be altered
+✅ **Transparent** - Anyone can view the complete flow of funds
+✅ **Automated** - No intermediaries that could be corrupted
+✅ **Fast Settlement** - Donations are immediately recorded
+✅ **Trustless** - Smart contracts enforce all rules programmatically
+✅ **Complete Audit Trail** - Every transaction is fully traceable
 
 ## Testing
 
-Semua fungsi sudah dilengkapi dengan unit tests:
-- Test initialize
-- Test create campaign
-- Test donate
-- Test multiple donors
-- Test campaign auto-close
-- Test percentage calculation
-- Test statistics
+All contract functions include comprehensive unit tests:
+- Initialize function test
+- Create campaign functionality
+- Donation transaction processing
+- Multiple donors scenario
+- Campaign auto-close on target reached
+- Campaign percentage calculation
+- Statistics aggregation
 
-Jalankan dengan:
+Run tests with:
 ```bash
 cargo test --lib
 ```
 
-## Deploy ke Testnet
+## Deploy to Testnet
 
-1. Build contract:
+1. Build the contract:
 ```bash
 cargo build --target wasm32-unknown-unknown --release
 ```
 
-2. Deploy ke Stellar testnet menggunakan Soroban CLI
+2. Deploy to Stellar testnet using Soroban CLI (see DEPLOYMENT.md for details)
 
-## Contoh Use Case
+## Use Case Examples
 
-### Campaign 1: Bencana Banjir Jakarta
-- Target: 1 Miliar Rupiah (dalam token)
-- Deadline: 7 hari
-- Recipient: Alamat organisasi kemanusiaan
+### Campaign 1: Jakarta Flood Disaster
+- Target: 1 Billion tokens
+- Duration: 7 days
+- Recipient: Humanitarian organization address
 
-### Campaign 2: Gempa Sumatera
-- Target: 500 Juta Rupiah
-- Deadline: 14 hari
-- Recipient: Alamat komunitas lokal
+### Campaign 2: Sumatera Earthquake Relief
+- Target: 500 Million tokens
+- Duration: 14 days
+- Recipient: Local community address
 
-Donor dapat memberikan donasi ke campaign mana saja, dan semua tercatat transparan di blockchain!
+Donors can contribute to any campaign, and all donations are recorded transparently on the blockchain for complete accountability!
